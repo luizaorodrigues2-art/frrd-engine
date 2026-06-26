@@ -1,6 +1,6 @@
 'use client'
 export const dynamic = 'force-dynamic'
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
@@ -132,7 +132,7 @@ const footerCols = [
 
 // ─── Componente principal ─────────────────────────────────────────────────────
 
-export default function LoginPage() {
+function LoginForm() {
   const router      = useRouter()
   const params      = useSearchParams()
   const redirect    = params.get('redirect') || '/studio/dashboard'
@@ -553,5 +553,13 @@ export default function LoginPage() {
         </p>
       </aside>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: '100vh', background: 'var(--bg-primary)' }} />}>
+      <LoginForm />
+    </Suspense>
   )
 }
