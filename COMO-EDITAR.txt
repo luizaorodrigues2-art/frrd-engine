@@ -1,0 +1,163 @@
+================================================================================
+  COMO EDITAR FOTOS E TEXTOS - AURYX MEDIA
+================================================================================
+
+O CODIGO COMPLETO ESTA NA PASTA "site". Abra no VS Code:
+  -> Clique duas vezes em ABRIR-NO-VSCODE.bat
+
+NAO e um unico arquivo HTML. E um site profissional (Next.js) com varios
+arquivos organizados. Tudo esta pronto - voce so edita os arquivos abaixo.
+
+
+--------------------------------------------------------------------------------
+1. TEXTOS PRINCIPAIS (titulo da home, frases, contadores)
+--------------------------------------------------------------------------------
+
+  Arquivo: src\data\site-content.ts
+
+  Edite aqui:
+  - heroTitle          -> titulo gigante da primeira pagina
+  - heroSubtitle       -> texto abaixo do titulo
+  - slogan             -> frase da empresa
+  - finalCtaTitle      -> texto da chamada final
+  - counters           -> numeros (100+, 50+, etc.)
+  - processSteps       -> etapas do processo
+
+
+--------------------------------------------------------------------------------
+2. TELEFONE, WHATSAPP, EMAIL, REDES SOCIAIS
+--------------------------------------------------------------------------------
+
+  Arquivo: src\data\contact.ts
+
+  Exemplo Instagram:
+    instagram: "https://instagram.com/auryxmedia",
+
+  Exemplo email:
+    email: "contato@auryxmedia.com.br",
+
+
+--------------------------------------------------------------------------------
+3. SERVICOS (cards e pagina Servicos)
+--------------------------------------------------------------------------------
+
+  Arquivo: src\data\services.ts
+
+  Para ADICIONAR um servico, copie um bloco { ... } e mude:
+  - title            -> nome do servico
+  - shortDescription -> texto curto do card
+  - image            -> link da foto OU "/images/minha-foto.jpg"
+  - fullDescription  -> texto longo na pagina servicos
+  - benefits         -> lista de beneficios
+  - differentials    -> lista de diferenciais
+  - faq              -> perguntas e respostas
+
+
+--------------------------------------------------------------------------------
+4. PORTFOLIO (carrossel da home)
+--------------------------------------------------------------------------------
+
+  Arquivo: src\data\portfolio.ts
+
+  Para ADICIONAR projeto, copie um bloco e mude:
+  - title       -> nome do cliente/projeto
+  - category    -> Sites, Sistemas, Landing Pages...
+  - image       -> foto
+  - description -> descricao curta
+  - objective   -> objetivo do projeto
+  - result      -> resultado alcancado
+
+
+--------------------------------------------------------------------------------
+5. CASES (seção com botao VISITAR SITE)
+--------------------------------------------------------------------------------
+
+  Arquivo: src\data\cases.ts
+
+  - title, description, image
+  - link: "https://site-do-cliente.com.br"  (quando tiver o link)
+
+
+--------------------------------------------------------------------------------
+6. DEPOIMENTOS
+--------------------------------------------------------------------------------
+
+  Arquivo: src\data\testimonials.ts
+
+  Copie um bloco { id, text, author, role, rating } e mude o texto.
+
+
+--------------------------------------------------------------------------------
+7. COMO USAR SUAS FOTOS (do seu computador)
+--------------------------------------------------------------------------------
+
+  Passo 1: Coloque a foto nesta pasta:
+            public\images\
+            Exemplo: public\images\meu-site.jpg
+
+  Passo 2: Nos arquivos de dados, use:
+            image: "/images/meu-site.jpg"
+
+  Passo 3: Salve o arquivo no VS Code (Ctrl+S)
+
+  Passo 4: Veja no PC: INICIAR-SITE.bat
+            Ou online: GERAR-SITE-PARA-HOSTINGER.bat e envie OUT ao Hostinger
+
+
+--------------------------------------------------------------------------------
+8. FOTO DA INTERNET (link)
+--------------------------------------------------------------------------------
+
+  Nos arquivos services.ts, portfolio.ts ou cases.ts:
+
+  image: "https://images.unsplash.com/photo-xxxxx?w=800&q=80"
+
+  Sites gratis de fotos: unsplash.com, pexels.com
+
+
+--------------------------------------------------------------------------------
+9. DEPOIS DE EDITAR
+--------------------------------------------------------------------------------
+
+  Ver no computador:
+    INICIAR-SITE.bat  (duplo clique)
+
+  Colocar online na Hostinger:
+    GERAR-SITE-PARA-HOSTINGER.bat
+    Envie o conteudo da pasta OUT para public_html
+
+
+--------------------------------------------------------------------------------
+ESTRUTURA DO CODIGO (onde esta tudo)
+--------------------------------------------------------------------------------
+
+  site\
+    INICIAR-SITE.bat          <- ver no PC
+    GERAR-SITE-PARA-HOSTINGER.bat
+    ABRIR-NO-VSCODE.bat
+    COMO-EDITAR.txt            <- este arquivo
+
+    src\
+      app\
+        page.tsx               <- pagina inicial (lista as secoes)
+        servicos\page.tsx      <- pagina de servicos
+        layout.tsx             <- cabecalho SEO do site
+        globals.css            <- cores e estilos
+
+      data\                    <- EDITE AQUI (textos e fotos)
+        site-content.ts
+        contact.ts
+        services.ts
+        portfolio.ts
+        cases.ts
+        testimonials.ts
+
+      components\              <- visual do site (raro precisar mexer)
+        home\                  <- secoes da home
+        layout\                <- header, footer, botoes
+
+    public\
+      images\                  <- COLOQUE SUAS FOTOS AQUI
+
+
+================================================================================

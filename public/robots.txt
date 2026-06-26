@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://auryxmedia.com.br/sitemap.xml

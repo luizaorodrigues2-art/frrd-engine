@@ -1,0 +1,94 @@
+================================================================================
+  AURYX MEDIA - COMO USAR ESTE PROJETO
+================================================================================
+
+NA PASTA DO SITE VOCE TEM 3 ARQUIVOS PARA CLICAR:
+
+  1. INICIAR-SITE.bat
+     -> Ve o site no seu computador (http://localhost:3000)
+     -> Clique duas vezes e aguarde abrir o navegador
+
+  2. ABRIR-NO-VSCODE.bat
+     -> Abre o projeto no Visual Studio Code para editar
+
+  3. GERAR-SITE-PARA-HOSTINGER.bat
+     -> Cria a pasta OUT com o site pronto para colocar online
+
+
+--------------------------------------------------------------------------------
+COMO ABRIR NO VS CODE (manual)
+--------------------------------------------------------------------------------
+
+  Opcao A: Clique duas vezes em ABRIR-NO-VSCODE.bat
+
+  Opcao B:
+    - Abra o VS Code
+    - Menu: Arquivo > Abrir Pasta...
+    - Selecione a pasta: site
+      (C:\Users\luiza\Desktop\AURYX MEDIA\site)
+
+
+--------------------------------------------------------------------------------
+REQUISITO: NODE.JS
+--------------------------------------------------------------------------------
+
+  Se os .bat derem erro, instale Node.js:
+  https://nodejs.org  (versao LTS)
+  Reinicie o computador depois de instalar.
+
+
+--------------------------------------------------------------------------------
+COMO COLOCAR ONLINE NA HOSTINGER (todos verem o site)
+--------------------------------------------------------------------------------
+
+  METODO RECOMENDADO - Hospedagem compartilhada (plano comum):
+
+  1. Clique em GERAR-SITE-PARA-HOSTINGER.bat
+  2. Aguarde terminar (abre a pasta OUT automaticamente)
+  3. Entre em https://hpanel.hostinger.com
+  4. Va em: Arquivos > Gerenciador de Arquivos
+  5. Abra a pasta public_html (do seu dominio)
+  6. Delete arquivos antigos dentro de public_html (index.html etc.)
+  7. Envie TODOS os arquivos e pastas que estao DENTRO da pasta OUT
+     (nao envie a pasta out em si - envie o conteudo dela)
+  8. Pronto! Acesse www.seudominio.com.br
+
+  IMPORTANTE no Gerenciador de Arquivos:
+  - Deve existir index.html na raiz de public_html
+  - Deve existir a pasta _next com arquivos dentro
+
+
+--------------------------------------------------------------------------------
+SE VOCE TEM VPS HOSTINGER (Node.js)
+--------------------------------------------------------------------------------
+
+  1. Envie o projeto completo via FTP ou Git
+  2. No terminal SSH: npm install && npm run build && npm start
+  3. Configure o dominio para apontar ao servidor Node (porta 3000)
+     ou use PM2 + proxy reverso
+
+
+--------------------------------------------------------------------------------
+DOMINIO E SSL
+--------------------------------------------------------------------------------
+
+  No Hostinger hpanel:
+  - Dominios > seu dominio > apontar para a hospedagem
+  - SSL > ativar SSL gratuito (Let's Encrypt)
+  - Aguarde alguns minutos para HTTPS funcionar
+
+
+--------------------------------------------------------------------------------
+EDITAR CONTATOS (email, instagram, etc.)
+--------------------------------------------------------------------------------
+
+  No VS Code, edite o arquivo:
+  src\data\contact.ts
+
+  Depois rode GERAR-SITE-PARA-HOSTINGER.bat novamente
+  e envie o conteudo de OUT para public_html de novo.
+
+
+================================================================================
+  AURYX MEDIA - Suporte: WhatsApp (11) 99422-1713
+================================================================================

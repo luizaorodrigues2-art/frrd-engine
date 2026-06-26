@@ -1,0 +1,12 @@
+Coloque suas fotos aqui.
+
+Exemplo:
+  - minha-foto.jpg
+  - logo-cliente.png
+  - banner-home.webp
+
+No VS Code, nos arquivos src\data\services.ts (ou portfolio.ts, cases.ts):
+
+  image: "/images/minha-foto.jpg"
+
+Depois salve e rode INICIAR-SITE.bat para ver.

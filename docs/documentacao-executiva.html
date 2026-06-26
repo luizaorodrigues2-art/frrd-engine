@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURYX MEDIA — Documentação Executiva</title>
+  <style>
+    :root {
+      --black-fosco: #0a0a0a;
+      --black-carbon: #111111;
+      --orange: #FF6A00;
+      --orange-light: #ff8c00;
+      --gray: #d9d9d9;
+      --gray-muted: #a0a0a0;
+      --white: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--white);
+      color: #333;
+      line-height: 1.65;
+      font-size: 11pt;
+    }
+    .cover {
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--black-fosco) 0%, var(--black-carbon) 50%, #1a1a1a 100%);
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 3rem;
+      position: relative;
+      page-break-after: always;
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(255,106,0,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cover-accent { width: 80px; height: 4px; background: var(--orange); margin: 0 auto 2rem; }
+    .cover h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+    .cover h1 span { color: var(--orange); }
+    .cover .subtitle {
+      font-size: 1.1rem;
+      color: var(--gray);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+    }
+    .cover .doc-type {
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--gray);
+      margin-bottom: 0.5rem;
+    }
+    .cover .date { font-size: 1rem; color: var(--orange); font-weight: 600; }
+    .cover .footer-note {
+      position: absolute;
+      bottom: 2rem;
+      font-size: 0.75rem;
+      color: var(--gray-muted);
+    }
+    .toc-page {
+      padding: 3rem 4rem;
+      page-break-after: always;
+      min-height: 100vh;
+    }
+    .toc-header {
+      background: var(--black-fosco);
+      color: var(--white);
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--orange);
+    }
+    .toc-header h2 { font-size: 1.5rem; letter-spacing: 0.05em; }
+    .toc-list { list-style: none; }
+    .toc-list li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .toc-num {
+      color: var(--orange);
+      font-weight: 700;
+      font-size: 0.9rem;
+      min-width: 2rem;
+    }
+    .toc-list a {
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      flex: 1;
+    }
+    .toc-list a:hover { color: var(--orange); }
+    .section {
+      padding: 2.5rem 4rem;
+      page-break-before: always;
+    }
+    .section:first-of-type { page-break-before: auto; }
+    .section-header {
+      background: var(--black-fosco);
+      color: var(--white);
+      padding: 1.25rem 2rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--orange);
+    }
+    .section-header h2 {
+      font-size: 1.4rem;
+      letter-spacing: 0.03em;
+    }
+    .section-header .section-num {
+      color: var(--orange);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.25rem;
+    }
+    h3 {
+      color: var(--black-fosco);
+      font-size: 1.1rem;
+      margin: 1.5rem 0 0.75rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 2px solid var(--orange);
+    }
+    h4 { color: #444; font-size: 0.95rem; margin: 1rem 0 0.5rem; }
+    p { margin-bottom: 0.85rem; color: #444; }
+    ul, ol { margin: 0.5rem 0 1rem 1.5rem; color: #444; }
+    li { margin-bottom: 0.35rem; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.9rem;
+    }
+    thead { background: var(--black-fosco); color: var(--white); }
+    th {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    th:first-child { border-left: 3px solid var(--orange); }
+    td {
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid #e5e5e5;
+      vertical-align: top;
+    }
+    tbody tr:nth-child(even) { background: #f8f8f8; }
+    tbody tr:hover { background: #fff5eb; }
+    .highlight { color: var(--orange); font-weight: 700; }
+    .badge {
+      display: inline-block;
+      background: var(--orange);
+      color: white;
+      padding: 0.15rem 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      border-radius: 3px;
+    }
+    .badge-dark { background: var(--black-fosco); }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .card {
+      border: 1px solid #e0e0e0;
+      padding: 1.25rem;
+      border-radius: 6px;
+      background: #fafafa;
+    }
+    .card.featured {
+      border-color: var(--orange);
+      background: linear-gradient(135deg, #fff8f0 0%, #fff 100%);
+      box-shadow: 0 4px 20px rgba(255,106,0,0.12);
+    }
+    .card h4 { margin-top: 0; color: var(--black-fosco); }
+    .card .price {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--orange);
+      margin: 0.5rem 0;
+    }
+    .card .price small { font-size: 0.75rem; color: #888; font-weight: 400; }
+    .flow-box {
+      background: var(--black-fosco);
+      color: var(--gray);
+      padding: 1.5rem;
+      border-radius: 6px;
+      margin: 1rem 0;
+      font-family: monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+    }
+    .flow-box .step { color: var(--orange); font-weight: 700; }
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .kpi {
+      background: var(--black-fosco);
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      border-radius: 4px;
+    }
+    .kpi .val { font-size: 1.5rem; font-weight: 800; color: var(--orange); }
+    .kpi .lbl { font-size: 0.7rem; color: var(--gray); margin-top: 0.25rem; }
+    .conclusion-box {
+      background: linear-gradient(135deg, var(--black-fosco), #1a1a1a);
+      color: var(--gray);
+      padding: 2rem;
+      border-radius: 6px;
+      border-left: 4px solid var(--orange);
+      margin-top: 1rem;
+    }
+    .conclusion-box p { color: var(--gray); }
+    .doc-footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.75rem;
+      color: #999;
+      border-top: 1px solid #eee;
+      margin-top: 2rem;
+    }
+    @media print {
+      body { font-size: 10pt; }
+      .section { padding: 2rem 3rem; }
+      .toc-page { padding: 2rem 3rem; }
+      a { color: inherit; }
+      .card-grid { grid-template-columns: repeat(3, 1fr); }
+      .kpi-row { grid-template-columns: repeat(4, 1fr); }
+    }
+    @page { size: A4; margin: 0; }
+    @page :first { margin: 0; }
+  </style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-accent"></div>
+  <h1>AURYX <span>MEDIA</span></h1>
+  <p class="subtitle">Agência Digital Premium</p>
+  <p class="doc-type">Documentação Executiva</p>
+  <p class="date">Junho 2026</p>
+  <p class="footer-note">Documento confidencial — Uso interno e apresentação a investidores</p>
+</div>
+
+<!-- TOC -->
+<div class="toc-page" id="indice">
+  <div class="toc-header"><h2>Índice</h2></div>
+  <ol class="toc-list">
+    <li><span class="toc-num">01</span><a href="#sec1">Visão Geral do Projeto</a></li>
+    <li><span class="toc-num">02</span><a href="#sec2">Análise de Mercado</a></li>
+    <li><span class="toc-num">03</span><a href="#sec3">Estrutura do Site</a></li>
+    <li><span class="toc-num">04</span><a href="#sec4">Design e Identidade</a></li>
+    <li><span class="toc-num">05</span><a href="#sec5">Tecnologias Utilizadas</a></li>
+    <li><span class="toc-num">06</span><a href="#sec6">SEO</a></li>
+    <li><span class="toc-num">07</span><a href="#sec7">Google AdSense</a></li>
+    <li><span class="toc-num">08</span><a href="#sec8">Plano de Vendas</a></li>
+    <li><span class="toc-num">09</span><a href="#sec9">Estratégia de Preços</a></li>
+    <li><span class="toc-num">10</span><a href="#sec10">Mensalidades</a></li>
+    <li><span class="toc-num">11</span><a href="#sec11">Custos Futuros</a></li>
+    <li><span class="toc-num">12</span><a href="#sec12">Escalabilidade</a></li>
+    <li><span class="toc-num">13</span><a href="#sec13">Plano de Crescimento 12 Meses</a></li>
+    <li><span class="toc-num">14</span><a href="#sec14">Conclusão Executiva</a></li>
+  </ol>
+</div>
+
+<!-- SECTION 1 -->
+<section class="section" id="sec1">
+  <div class="section-header">
+    <div class="section-num">SEÇÃO 01</div>
+    <h2>Visão Geral do Projeto</h2>
+  </div>
+  <p><strong>AURYX MEDIA</strong> é uma agência digital premium sediada em São Paulo, dedicada a transformar ideias em marcas memoráveis e negócios em resultados mensuráveis. O projeto central consiste em um site institucional de alto impacto que serve como vitrine, ferramenta de conversão e hub estratégico para captação de clientes.</p>
+  <div class="kpi-row">
+    <div class="kpi"><div class="val">100+</div><div class="lbl">Projetos Entregues</div></div>
+    <div class="kpi"><div class="val">50+</div><div class="lbl">Clientes Atendidos</div></div>
+    <div class="kpi"><div class="val">99%</div><div class="lbl">Satisfação</div></div>
+    <div class="kpi"><div class="val">24h</div><div class="lbl">Suporte</div></div>
+  </div>
+  <h3>Objetivos Estratégicos</h3>
+  <ul>
+    <li>Posicionar AURYX MEDIA como referência em design premium e tecnologia de ponta no mercado brasileiro</li>
+    <li>Converter visitantes em leads qualificados via WhatsApp e formulários estratégicos</li>
+    <li>Demonstrar portfólio, cases e processo de trabalho com experiência cinematográfica</li>
+    <li>Estabelecer base escalável para expansão de serviços e receita recorrente</li>
+    <li>Monetizar tráfego orgânico via Google AdSense após atingir volume mínimo de visitantes</li>
+  </ul>
+  <h3>Proposta de Valor</h3>
+  <p>Não entregamos apenas sites — entregamos ferramentas de crescimento. Combinamos design de alto impacto, performance superior e estratégia de conversão para empresas que buscam autoridade digital e resultados reais.</p>
+  <h3>Portfólio de Serviços</h3>
+  <table>
+    <thead><tr><th>Serviço</th><th>Descrição</th><th>Modelo</th></tr></thead>
+    <tbody>
+      <tr><td>Criação de Sites</td><td>Sites institucionais, landing pages e portais corporativos</td><td>Projeto + Mensalidade</td></tr>
+      <tr><td>Desenvolvimento de Software</td><td>Sistemas web, apps e automações sob medida</td><td>Projeto + Suporte</td></tr>
+      <tr><td>Marketing Digital</td><td>Tráfego pago, SEO e estratégia de conteúdo</td><td>Mensalidade</td></tr>
+      <tr><td>Design Gráfico</td><td>Identidade visual, materiais e branding</td><td>Projeto / Pacote</td></tr>
+      <tr><td>Gestão de Redes Sociais</td><td>Planejamento, criação e community management</td><td>Mensalidade</td></tr>
+      <tr><td>Motion Design & Vídeo</td><td>Animações, edição e conteúdo audiovisual</td><td>Projeto / Pacote</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 2 -->
+<section class="section" id="sec2">
+  <div class="section-header">
+    <div class="section-num">SEÇÃO 02</div>
+    <h2>Análise de Mercado</h2>
+  </div>
+  <p>O mercado de agências digitais no Brasil movimenta bilhões anuais, com crescimento acelerado impulsionado pela digitalização de pequenas e médias empresas. A demanda por presença digital profissional nunca foi tão alta.</p>
+  <h3>Panorama do Mercado</h3>
+  <table>
+    <thead><tr><th>Indicador</th><th>Dado</th><th>Implicação</th></tr></thead>
+    <tbody>
+      <tr><td>Empresas sem site profissional</td><td>~45% das PMEs brasileiras</td><td>Grande oportunidade de captação</td></tr>
+      <tr><td>Investimento em marketing digital</td><td>+18% ao ano (2024-2026)</td><td>Demanda crescente por serviços integrados</td></tr>
+      <tr><td>Preferência por agências premium</td><td>+32% em segmentos B2B</td><td>Posicionamento premium é vantagem</td></tr>
+      <tr><td>Mobile-first</td><td>78% do tráfego via mobile</td><td>Sites responsivos são obrigatórios</td></tr>
+    </tbody>
+  </table>
+  <h3>Análise de Concorrentes</h3>
+  <table>
+    <thead><tr><th>Concorrente</th><th>Posicionamento</th><th>Preço Médio (Site)</th><th>Diferencial AURYX</th></tr></thead>
+    <tbody>
+      <tr><td>Agências Locais (SP)</td><td>Genérico, templates</td><td>R$ 3.000 – R$ 8.000</td><td>Design exclusivo + animações premium</td></tr>
+      <tr><td>Studio Web Nacional</td><td>Volume, padronizado</td><td>R$ 5.000 – R$ 15.000</td><td>Atendimento personalizado + tech stack moderna</td></tr>
+      <tr><td>Freelancers</td><td>Baixo custo, variável</td><td>R$ 1.500 – R$ 5.000</td><td>Equipe completa + suporte contínuo</td></tr>
+      <tr><td>Agências Premium</td><td>Luxo, branding</td><td>R$ 20.000 – R$ 80.000</td><td>Preço competitivo com qualidade equivalente</td></tr>
+      <tr><td>Plataformas (Wix, etc.)</td><td>Self-service</td><td>R$ 50 – R$ 300/mês</td><td>Resultado profissional + estratégia de negócio</td></tr>
+    </tbody>
+  </table>
+  <h3>Oportunidades Identificadas</h3>
+  <ul>
+    <li><strong>PMEs em expansão:</strong> empresas que precisam de presença digital profissional com orçamento moderado</li>
+    <li><strong>Profissionais liberais:</strong> advogados, médicos, arquitetos que valorizam imagem premium</li>
+    <li><strong>E-commerce emergente:</strong> lojas virtuais com foco em conversão e performance</li>
+    <li><strong>Receita recorrente:</strong> mensalidades de suporte, social media e tráfego pago</li>
+  </ul>
+</section>
+
+<!-- SECTION 3 -->
+<section class="section" id="sec3">
+  <div class="section-header">
+    <div class="section-num">SEÇÃO 03</div>
+    <h2>Estrutura do Site</h2>
+  </div>
+  <p>O site AURYX MEDIA foi arquitetado com foco em experiência premium, performance e conversão. Estrutura modular baseada em Next.js App Router com export estático para hospedagem na Hostinger.</p>
+  <h3>Mapa de Páginas</h3>
+  <table>
+    <thead><tr><th>Página / Seção</th><th>URL</th><th>Função</th></tr></thead>
+    <tbody>
+      <tr><td>Home — Hero Intro</td><td>/</td><td>Impacto visual, CTA principal, diferenciais</td></tr>
+      <tr><td>Home — Hero Panels</td><td>/</td><td>Navegação interativa por serviços</td></tr>
+      <tr><td>Home — Portfólio</td><td>/</td><td>Exibição de projetos realizados</td></tr>
+      <tr><td>Home — Cases</td><td>/</td><td>Resultados e métricas de clientes</td></tr>
+      <tr><td>Home — Contadores</td><td>/</td><td>Prova social com números</td></tr>
+      <tr><td>Home — Processo</td><td>/</td><td>7 etapas do fluxo de trabalho</td></tr>
+      <tr><td>Home — Testemunhos</td><td>/</td><td>Feedback de clientes</td></tr>
+      <tr><td>Home — CTA Final</td><td>/</td><td>Conversão final via WhatsApp</td></tr>
+      <tr><td>Serviços</td><td>/servicos</td><td>11 serviços detalhados com FAQ</td></tr>
+    </tbody>
+  </table>
+  <h3>Fluxo de UX (Jornada do Usuário)</h3>
+  <div class="flow-box">
+    <span class="step">01</span> Entrada (Hero) → Impacto visual + slogan + CTA WhatsApp<br>
+    <span class="step">02</span> Exploração (Panels) → Navegação interativa por área de serviço<br>
+    <span class="step">03</span> Credibilidade (Portfólio + Cases) → Prova social e resultados<br>
+    <span class="step">04</span> Confiança (Processo + Testemunhos) → Transparência do método<br>
+    <span class="step">05</span> Conversão (CTA Final) → WhatsApp / Orçamento<br>
+    <span class="step">06</span> Deep Dive (Serviços) → Detalhamento completo + FAQ + CTA
+  </div>
+  <h3>Componentes Globais</h3>
+  <ul>
+    <li><strong>Header:</strong> navegação fixa com logo, links e CTA</li>
+    <li><strong>Footer:</strong> informações de contato, links e slogan</li>
+    <li><strong>Floating Buttons:</strong> WhatsApp e telefone sempre visíveis</li>
+    <li><strong>Smooth Scroll (Lenis):</strong> rolagem suave cinematográfica</li>
+    <li><strong>Scroll Reveal:</strong> animações de entrada nas seções</li>
+  </ul>
+</section>
+
+<!-- SECTION 4 -->
+<section class="section" id="sec4">
+  <div class="section-header">
+    <div class="section-num">SEÇÃO 04</div>
+    <h2>Design e Identidade</h2>
+  </div>
+  <p>A identidade visual AURYX MEDIA transmite autoridade, luxo e inovação. O design dark premium com acentos laranja cria uma experiência memorável que diferencia a agência no mercado.</p>
+  <h3>Paleta de Cores</h3>
+  <table>
+    <thead><tr><th>Cor</th><th>Hex</th><th>Uso</th></tr></thead>
+    <tbody>
+      <tr><td>Black Fosco</td><td><span class="highlight">#0A0A0A</span></td><td>Background principal</td></tr>
+      <tr><td>Black Carbon</td><td><span class="highlight">#111111</span></td><td>Cards, seções alternadas</td></tr>
+      <tr><td>Orange AURYX</td><td><span class="highlight">#FF6A00</span></td><td>CTAs, acentos, destaques</td></tr>
+      <tr><td>Orange Neon</td><td><span class="highlight">#FF8C00</span></td><td>Hover, gradientes secundários</td></tr>
+      <tr><td>Gray Metallic</td><td><span class="highlight">#D9D9D9</span></td><td>Texto secundário</td></tr>
+      <tr><td>White</td><td><span class="highlight">#FFFFFF</span></td><td>Títulos, texto principal</td></tr>
+    </tbody>
+  </table>
+  <h3>Tipografia</h3>
+  <table>
+    <thead><tr><th>Fonte</th><th>Uso</th><th>Peso</th></tr></thead>
+    <tbody>
+      <tr><td>Space Grotesk</td><td>Títulos, display, headings</td><td>700 (Bold)</td></tr>
+      <tr><td>Inter</td><td>Corpo de texto, UI, labels</td><td>400–600</td></tr>
+    </tbody>
+  </table>
+  <h3>Princípios de Design</h3>
+  <ul>
+    <li><strong>Dark Premium:</strong> fundo escuro com gradientes sutis e glow laranja</li>
+    <li><strong>Animações Cinematográficas:</strong> Framer Motion, GSAP e ScrollReveal para entrada suave</li>
+    <li><strong>Glass Morphism:</strong> cards com backdrop-blur e bordas translúcidas</li>
+    <li><strong>Grid Pattern:</strong> padrão geométrico sutil no hero para profundidade</li>
+    <li><strong>Responsividade Total:</strong> mobile-first com breakpoints otimizados</li>
+    <li><strong>Micro-interações:</strong> hover states, transições e feedback visual em todos os elementos interativos</li>
+  </ul>
+</section>
+
+<!-- SECTION 5 -->
+<section class="section" id="sec5">
+  <div class="section-header">
+    <div class="section-num">SEÇÃO 05</div>
+    <h2>Tecnologias Utilizadas</h2>
+  </div>
+  <p>Stack moderna e performática, selecionada para entregar experiências premium com código limpo, escalável e de fácil manutenção.</p>
+  <h3>Stack Principal</h3>
+  <table>
+    <thead><tr><th>Tecnologia</th><th>Versão</th><th>Função</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Next.js</strong></td><td>16.2.9</td><td>Framework React com App Router, SSG e otimizações</td></tr>
+      <tr><td><strong>React</strong></td><td>19.2.4</td><td>Biblioteca UI com componentes reutilizáveis</td></tr>
+      <tr><td><strong>TypeScript</strong></td><td>5.x</td><td>Type safety e manutenibilidade do código</td></tr>
+      <tr><td><strong>Tailwind CSS</strong></td><td>4.x</td><td>Estilização utility-first com design system</td></tr>
+      <tr><td><strong>Framer Motion</strong></td><td>12.x</td><td>Animações declarativas e transições</td></tr>
+      <tr><td><strong>GSAP</strong></td><td>3.15</td><td>Animações complexas e timeline cinematográficas</td></tr>
+      <tr><td><strong>Lenis</strong></td><td>1.3</td><td>Smooth scroll premium</td></tr>
+      <tr><td><strong>ScrollReveal</strong></td><td>4.0</td><td>Animações de entrada ao scroll</td></tr>
+      <tr><td><strong>Swiper</strong></td><td>12.x</td><td>Carrosséis e sliders touch-friendly</td></tr>
+      <tr><td><strong>TS Particles</strong></td><td>4.x</td><td>Efeitos de partículas no background</td></tr>
+      <tr><td><strong>React Icons</strong></td><td>5.x</td><td>Ícones SVG otimizados</td></tr>
+    </tbody>
+  </table>
+  <h3>Infraestrutura e Deploy</h3>
+  <table>
+    <thead><tr><th>Componente</th><th>Detalhe</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Hospedagem</strong></td><td>Hostinger — plano Business/Premium com SSL gratuito</td></tr>
+      <tr><td><strong>Build</strong></td><td>Next.js static export (output: 'export') → pasta /out</td></tr>
+      <tr><td><strong>Domínio</strong></td><td>auryxmedia.com.br</td></tr>
+      <tr><td><strong>CDN</strong></td><td>Hostinger CDN + cache de assets estáticos</td></tr>
+      <tr><td><strong>SSL</strong></td><td>Let's Encrypt automático via Hostinger</td></tr>
+      <tr><td><strong>Versionamento</strong></td><td>Git + deploy manual via FTP/SFTP ou Git deploy</td></tr>
+    </tbody>
+  </table>
+  <h3>Performance Targets</h3>
+  <ul>
+    <li>Lighthouse Performance: &gt; 90</li>
+    <li>First Contentful Paint: &lt; 1.5s</li>
+    <li>Time to Interactive: &lt; 3s</li>
+    <li>Core Web Vitals: todos em "Good"</li>
+  </ul>
+</section>
+
+<!-- SECTION 6 -->
+<section class="section" id="sec6">
+  <div class="section-header">
+    <div class="section-num">SEÇÃO 06</div>
+    <h2>SEO</h2>
+  </div>
+  <p>Estratégia SEO implementada desde a arquitetura do site, com foco em palavras-chave de alto valor no mercado de agências digitais brasileiras.</p>
+  <h3>Implementações Técnicas</h3>
+  <table>
+    <thead><tr><th>Elemento</th><th>Implementação</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Meta Tags</td><td>title, description, keywords em cada página</td><td><span class="badge">Ativo</span></td></tr>
+      <tr><td>Open Graph</td><td>og:title, og:description, og:image (1200×630)</td><td><span class="badge">Ativo</span></td></tr>
+      <tr><td>Twitter Cards</td><td>summary_large_image configurado</td><td><span class="badge">Ativo</span></td></tr>
+      <tr><td>JSON-LD</td><td>Schema.org Organization com dados completos</td><td><span class="badge">Ativo</span></td></tr>
+      <tr><td>Canonical URLs</td><td>canonical em todas as páginas</td><td><span class="badge">Ativo</span></td></tr>
+      <tr><td>Robots.txt</td><td>index, follow + googleBot directives</td><td><span class="badge">Ativo</span></td></tr>
+      <tr><td>Sitemap.xml</td><td>Gerado automaticamente no build</td><td><span class="badge">Ativo</span></td></tr>
+      <tr><td>Semantic HTML</td><td>headings hierárquicos, alt em imagens, lang pt-BR</td><td><span class="badge">Ativo</span></td></tr>
+    </tbody>
+  </table>
+  <h3>Palavras-Chave Target</h3>
+  <table>
+    <thead><tr><th>Keyword</th><th>Volume Est.</th><th>Dificuldade</th><th>Página</th></tr></thead>
+    <tbody>
+      <tr><td>agência digital</td><td>Alto</td><td>Média</td><td>Home</td></tr>
+      <tr><td>criação de sites</td><td>Alto</td><td>Média</td><td>Serviços</td></tr>
+      <tr><td>desenvolvimento de software</td><td>Médio</td><td>Média</td><td>Serviços</td></tr>
+      <tr><td>marketing digital</td><td>Alto</td><td>Alta</td><td>Serviços</td></tr>
+      <tr><td>design gráfico</td><td>Alto</td><td>Média</td><td>Serviços</td></tr>
+      <tr><td>gestão de redes sociais</td><td>Médio</td><td>Média</td><td>Serviços</td></tr>
+      <tr><td>agência digital São Paulo</td><td>Médio</td><td>Baixa</td><td>Home</td></tr>
+      <tr><td>identidade visual</td><td>Médio</td><td>Média</td><td>Serviços</td></tr>
+    </tbody>
+  </table>
+  <h3>Estratégia de Conteúdo (Próximos Passos)</h3>
+  <ul>
+    <li>Blog com artigos sobre marketing digital, tendências e cases</li>
+    <li>Landing pages específicas por serviço para SEO local</li>
+    <li>Google Business Profile otimizado</li>
+    <li>Backlinks via parcerias e guest posts</li>
+  </ul>
+</section>
+
+<!-- SECTION 7 -->
+<section class="section" id="sec7">
+  <div class="section-header">
+    <div class="section-num">SEÇÃO 07</div>
+    <h2>Google AdSense</h2>
+  </div>
+  <p>Monetização complementar via Google AdSense para gerar receita passiva com tráfego orgânico, após atingir volume mínimo de visitantes.</p>
+  <h3>Requisitos e Preparação</h3>
+  <table>
+    <thead><tr><th>Requisito</th><th>Status</th><th>Detalhe</th></tr></thead>
+    <tbody>
+      <tr><td>Conteúdo original e de qualidade</td><td><span class="badge">Ativo</span></td><td>11 serviços detalhados + cases</td></tr>
+      <tr><td>Política de Privacidade</td><td><span class="badge badge-dark">Pendente</span></td><td>Página dedicada necessária</td></tr>
+      <tr><td>Termos de Uso</td><td><span class="badge badge-dark">Pendente</span></td><td>Página dedicada necessária</td></tr>
+      <tr><td>Navegação clara</td><td><span class="badge">Ativo</span></td><td>Header + Footer + links internos</td></tr>
+      <tr><td>Domínio próprio</td><td><span class="badge">Ativo</span></td><td>auryxmedia.com.br</td></tr>
+      <tr><td>SSL ativo</td><td><span class="badge">Ativo</span></td><td>HTTPS via Hostinger</td></tr>
+    </tbody>
+  </table>
+  <h3>Projeção de Receita AdSense</h3>
+  <table>
+    <thead><tr><th>Visitantes/mês</th><th>RPM Estimado</th><th>Receita Mensal</th><th>Receita Anual</th></tr></thead>
+    <tbody>
+      <tr><td>5.000</td><td>R$ 8 – R$ 15</td><td>R$ 40 – R$ 75</td><td>R$ 480 – R$ 900</td></tr>
+      <tr><td>10.000</td><td>R$ 10 – R$ 20</td><td>R$ 100 – R$ 200</td><td>R$ 1.200 – R$ 2.400</td></tr>
+      <tr><td>25.000</td><td>R$ 12 – R$ 25</td><td>R$ 300 – R$ 625</td><td>R$ 3.600 – R$ 7.500</td></tr>
+      <tr><td>50.000</td><td>R$ 15 – R$ 30</td><td>R$ 750 – R$ 1.500</td><td>R$ 9.000 – R$ 18.000</td></tr>
+    </tbody>
+  </table>
+  <p><em>Nota: AdSense é receita complementar. A receita principal vem de projetos e mensalidades de serviços.</em></p>
+</section>
+
+<!-- SECTION 8 -->
+<section class="section" id="sec8">
+  <div class="section-header">
+    <div class="section-num">SEÇÃO 08</div>
+    <h2>Plano de Vendas</h2>
+  </div>
+  <p>Estratégia de vendas multicanal focada em conversão digital, relacionamento e receita recorrente.</p>
+  <h3>Canais de Aquisição</h3>
+  <table>
+    <thead><tr><th>Canal</th><th>Estratégia</th><th>Investimento</th><th>Conversão Est.</th></tr></thead>
+    <tbody>
+      <tr><td><strong>WhatsApp</strong></td><td>CTA principal em todas as páginas + botão flutuante</td><td>R$ 0</td><td>Alto (principal)</td></tr>
+      <tr><td><strong>Google Ads</strong></td><td>Campanhas de busca: "criação de sites", "agência digital"</td><td>R$ 1.500 – R$ 3.000/mês</td><td>Médio-Alto</td></tr>
+      <tr><td><strong>Meta Ads</strong></td><td>Campanhas de awareness + leads para PMEs</td><td>R$ 1.000 – R$ 2.500/mês</td><td>Médio</td></tr>
+      <tr><td><strong>SEO Orgânico</strong></td><td>Conteúdo, blog, landing pages por serviço</td><td>R$ 0 – R$ 500/mês</td><td>Alto (longo prazo)</td></tr>
+      <tr><td><strong>Referral</strong></td><td>Programa de indicação com desconto para clientes</td><td>R$ 0</td><td>Alto</td></tr>
+      <tr><td><strong>Networking</strong></td><td>Eventos, parcerias B2B, LinkedIn</td><td>R$ 500/mês</td><td>Médio</td></tr>
+    </tbody>
+  </table>
+  <h3>Estratégia de Conversão</h3>
+  <div class="flow-box">
+    <span class="step">CAPTAR</span> Visitante chega via SEO/Ads/Referral<br>
+    <span class="step">→ ENGAJAR</span> Hero impactante + animações + prova social<br>
+    <span class="step">→ CONVENCER</span> Portfólio + Cases + Processo + Testemunhos<br>
+    <span class="step">→ CONVERTIR</span> CTA WhatsApp "Solicitar Orçamento"<br>
+    <span class="step">→ QUALIFICAR</span> Atendimento personalizado via WhatsApp<br>
+    <span class="step">→ FECHAR</span> Proposta com plano adequado ao perfil<br>
+    <span class="step">→ RETER</span> Mensalidade de suporte + upsell de serviços
+  </div>
+  <h3>Pipeline de Vendas</h3>
+  <table>
+    <thead><tr><th>Etapa</th><th>Ação</th><th>Ferramenta</th><th>Prazo</th></tr></thead>
+    <tbody>
+      <tr><td>Lead</td><td>Contato via WhatsApp/site</td><td>WhatsApp Business</td><td>Imediato</td></tr>
+      <tr><td>Qualificação</td><td>Entender necessidade e orçamento</td><td>Script de atendimento</td><td>24h</td></tr>
+      <tr><td>Proposta</td><td>Enviar proposta personalizada</td><td>PDF/Notion</td><td>48h</td></tr>
+      <tr><td>Negociação</td><td>Ajustes e condições</td><td>WhatsApp/Reunião</td><td>3–5 dias</td></tr>
+      <tr><td>Fechamento</td><td>Contrato + pagamento inicial</td><td>Contrato digital</td><td>7 dias</td></tr>
+      <tr><td>Entrega</td><td>Desenvolvimento + aprovação</td><td>Processo 7 etapas</td><td>2–6 semanas</td></tr>
+      <tr><td>Retenção</td><td>Mensalidade + upsell</td><td>Suporte contínuo</td><td>Contínuo</td></tr>
+    </tbody>
+  </table>
+  <h3>Metas de Vendas (12 meses)</h3>
+  <table>
+    <thead><tr><th>Métrica</th><th>Mês 3</th><th>Mês 6</th><th>Mês 12</th></tr></thead>
+    <tbody>
+      <tr><td>Leads/mês</td><td>15</td><td>30</td><td>60</td></tr>
+      <tr><td>Conversão</td><td>20%</td><td>25%</td><td>30%</td></tr>
+      <tr><td>Clientes novos/mês</td><td>3</td><td>7–8</td><td>18</td></tr>
+      <tr><td>Ticket médio</td><td>R$ 5.000</td><td>R$ 7.500</td><td>R$ 10.000</td></tr>
+      <tr><td>Receita projetos/mês</td><td>R$ 15.000</td><td>R$ 52.500</td><td>R$ 180.000</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 9 -->
+<section class="section" id="sec9">
+  <div class="section-header">
+    <div class="section-num">SEÇÃO 09</div>
+    <h2>Estratégia de Preços</h2>
+  </div>
+  <p>Estrutura de preços premium com nomenclatura exclusiva AURYX, posicionando a agência acima do mercado genérico e abaixo das grandes agências internacionais.</p>
+  <h3>Planos de Criação de Sites</h3>
+  <div class="card-grid">
+    <div class="card">
+      <span class="badge badge-dark">ESSENCIAL</span>
+      <h4>Plano Essencial</h4>
+      <div class="price">R$ 3.997 <small>projeto</small></div>
+      <ul>
+        <li>Landing page ou site de 3–5 páginas</li>
+        <li>Design responsivo premium</li>
+        <li>Otimização SEO básica</li>
+        <li>Integração WhatsApp</li>
+        <li>1 rodada de revisões</li>
+        <li>Entrega em 2–3 semanas</li>
+      </ul>
+    </div>
+    <div class="card featured">
+      <span class="badge">ELITE</span>
+      <h4>AURYX PRIME</h4>
+      <div class="price">R$ 7.997 <small>projeto</small></div>
+      <ul>
+        <li>Site completo 5–10 páginas</li>
+        <li>Animações Framer Motion + GSAP</li>
+        <li>SEO avançado + Schema.org</li>
+        <li>Blog integrado</li>
+        <li>3 rodadas de revisões</li>
+        <li>Hospedagem 1º ano inclusa</li>
+        <li>Entrega em 3–4 semanas</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="badge badge-dark">SIGNATURE</span>
+      <h4>AURYX SIGNATURE</h4>
+      <div class="price">R$ 14.997 <small>projeto</small></div>
+      <ul>
+        <li>Site premium 10+ páginas</li>
+        <li>Animações cinematográficas</li>
+        <li>Identidade visual inclusa</li>
+        <li>SEO completo + Analytics</li>
+        <li>Revisões ilimitadas</li>
+        <li>Hospedagem 1º ano inclusa</li>
+        <li>Entrega em 4–6 semanas</li>
+      </ul>
+    </div>
+  </div>
+  <h3>Plano Enterprise</h3>
+  <div class="card featured" style="max-width: 400px;">
+    <span class="badge">LEGACY</span>
+    <h4>AURYX LEGACY</h4>
+    <div class="price">R$ 29.997+ <small>projeto</small></div>
+    <ul>
+      <li>Plataforma web completa ou sistema sob medida</li>
+      <li>Design exclusivo + branding completo</li>
+      <li>Desenvolvimento full-stack</li>
+      <li>Integrações (ERP, CRM, pagamentos)</li>
+      <li>Dashboard administrativo</li>
+      <li>Suporte prioritário 6 meses</li>
+      <li>Entrega em 6–12 semanas</li>
+    </ul>
+  </div>
+  <h3>Comparativo de Planos</h3>
+  <table>
+    <thead><tr><th>Recurso</th><th>Essencial</th><th>AURYX PRIME</th><th>AURYX SIGNATURE</th><th>AURYX LEGACY</th></tr></thead>
+    <tbody>
+      <tr><td>Páginas</td><td>3–5</td><td>5–10</td><td>10+</td><td>Ilimitado</td></tr>
+      <tr><td>Design</td><td>Premium</td><td>Premium + Animações</td><td>Cinematográfico</td><td>Exclusivo</td></tr>
+      <tr><td>SEO</td><td>Básico</td><td>Avançado</td><td>Completo</td><td>Enterprise</td></tr>
+      <tr><td>Identidade Visual</td><td>—</td><td>—</td><td>Inclusa</td><td>Branding completo</td></tr>
+      <tr><td>Revisões</td><td>1</td><td>3</td><td>Ilimitadas</td><td>Ilimitadas</td></tr>
+      <tr><td>Hospedagem (1º ano)</td><td>—</td><td>Inclusa</td><td>Inclusa</td><td>Inclusa</td></tr>
+      <tr><td>Suporte pós-entrega</td><td>30 dias</td><td>60 dias</td><td>90 dias</td><td>6 meses</td></tr>
+      <tr><td><strong>Preço</strong></td><td><strong>R$ 3.997</strong></td><td><strong>R$ 7.997</strong></td><td><strong>R$ 14.997</strong></td><td><strong>R$ 29.997+</strong></td></tr>
+    </tbody>
+  </table>
+  <h3>Preços de Serviços Adicionais</h3>
+  <table>
+    <thead><tr><th>Serviço</th><th>Preço Base</th><th>Modelo</th></tr></thead>
+    <tbody>
+      <tr><td>Identidade Visual</td><td>R$ 2.497 – R$ 8.997</td><td>Projeto</td></tr>
+      <tr><td>Desenvolvimento de Software</td><td>R$ 9.997 – R$ 49.997+</td><td>Projeto</td></tr>
+      <tr><td>Tráfego Pago (gestão)</td><td>R$ 1.497/mês + investimento</td><td>Mensalidade</td></tr>
+      <tr><td>Gestão de Redes Sociais</td><td>R$ 1.997 – R$ 4.997/mês</td><td>Mensalidade</td></tr>
+      <tr><td>Motion Design</td><td>R$ 1.497 – R$ 5.997/vídeo</td><td>Projeto</td></tr>
+      <tr><td>Edição de Vídeo</td><td>R$ 497 – R$ 2.997/vídeo</td><td>Projeto</td></tr>
+      <tr><td>Artes para Redes Sociais</td><td>R$ 997 – R$ 2.497/mês</td><td>Pacote mensal</td></tr>
+      <tr><td>Flyers / Cartões</td><td>R$ 297 – R$ 997</td><td>Projeto</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 10 -->
+<section class="section" id="sec10">
+  <div class="section-header">
+    <div class="section-num">SEÇÃO 10</div>
+    <h2>Mensalidades</h2>
+  </div>
+  <p>Planos de suporte e manutenção recorrente que garantem receita estável e relacionamento contínuo com clientes.</p>
+  <h3>Planos de Suporte e Manutenção</h3>
+  <div class="card-grid">
+    <div class="card">
+      <span class="badge badge-dark">BÁSICO</span>
+      <h4>Suporte Essencial</h4>
+      <div class="price">R$ 97 <small>/mês</small></div>
+      <ul>
+        <li>Monitoramento de uptime</li>
+        <li>Backup mensal</li>
+        <li>Atualizações de segurança</li>
+        <li>Suporte via WhatsApp (48h)</li>
+        <li>1 alteração de texto/imagem/mês</li>
+      </ul>
+    </div>
+    <div class="card featured">
+      <span class="badge">GROWTH</span>
+      <h4>Growth</h4>
+      <div class="price">R$ 197 <small>/mês</small></div>
+      <ul>
+        <li>Tudo do Essencial</li>
+        <li>Backup semanal</li>
+        <li>Suporte prioritário (24h)</li>
+        <li>3 alterações/mês</li>
+        <li>Relatório de performance mensal</li>
+        <li>Otimização SEO contínua</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="badge badge-dark">PREMIUM</span>
+      <h4>Elite</h4>
+      <div class="price">R$ 497 <small>/mês</small></div>
+      <ul>
+        <li>Tudo do Growth</li>
+        <li>Backup diário</li>
+        <li>Suporte imediato (4h)</li>
+        <li>Alterações ilimitadas</li>
+        <li>Consultoria estratégica mensal</li>
+        <li>Relatório Analytics completo</li>
+        <li>Prioridade em novos projetos</li>
+      </ul>
+    </div>
+  </div>
+  <h3>Comparativo de Mensalidades</h3>
+  <table>
+    <thead><tr><th>Recurso</th><th>Suporte Essencial</th><th>Growth</th><th>Elite</th></tr></thead>
+    <tbody>
+      <tr><td>Preço mensal</td><td><strong>R$ 97</strong></td><td><strong>R$ 197</strong></td><td><strong>R$ 497</strong></td></tr>
+      <tr><td>Backup</td><td>Mensal</td><td>Semanal</td><td>Diário</td></tr>
+      <tr><td>Tempo de resposta</td><td>48h</td><td>24h</td><td>4h</td></tr>
+      <tr><td>Alterações/mês</td><td>1</td><td>3</td><td>Ilimitadas</td></tr>
+      <tr><td>Relatório performance</td><td>—</td><td>Mensal</td><td>Completo</td></tr>
+      <tr><td>SEO contínuo</td><td>—</td><td>Sim</td><td>Sim</td></tr>
+      <tr><td>Consultoria estratégica</td><td>—</td><td>—</td><td>Mensal</td></tr>
+      <tr><td>Hospedagem inclusa</td><td>—</td><td>—</td><td>Sim</td></tr>
+    </tbody>
+  </table>
+  <h3>Projeção de Receita Recorrente</h3>
+  <table>
+    <thead><tr><th>Cenário</th><th>Clientes Essencial</th><th>Clientes Growth</th><th>Clientes Elite</th><th>Receita Mensal</th></tr></thead>
+    <tbody>
+      <tr><td>Inicial (Mês 3)</td><td>5</td><td>2</td><td>1</td><td>R$ 1.081</td></tr>
+      <tr><td>Crescimento (Mês 6)</td><td>10</td><td>8</td><td>3</td><td>R$ 3.461</td></tr>
+      <tr><td>Estabelecido (Mês 12)</td><td>20</td><td>15</td><td>8</td><td>R$ 7.625</td></tr>
+      <tr><td>Expansão (Mês 24)</td><td>30</td><td>25</td><td>15</td><td>R$ 13.430</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 11 -->
+<section class="section" id="sec11">
+  <div class="section-header">
+    <div class="section-num">SEÇÃO 11</div>
+    <h2>Custos Futuros</h2>
+  </div>
+  <p>Projeção de custos operacionais mensais e anuais para operação e crescimento da AURYX MEDIA.</p>
+  <h3>Custos Operacionais Mensais</h3>
+  <table>
+    <thead><tr><th>Item</th><th>Mês 1–3</th><th>Mês 4–6</th><th>Mês 7–12</th><th>Observação</th></tr></thead>
+    <tbody>
+      <tr><td>Hospedagem Hostinger</td><td>R$ 35</td><td>R$ 35</td><td>R$ 55</td><td>Plano Business → Premium</td></tr>
+      <tr><td>Domínio (.com.br)</td><td>R$ 4</td><td>R$ 4</td><td>R$ 4</td><td>Renovação anual ÷ 12</td></tr>
+      <tr><td>Ferramentas (Figma, etc.)</td><td>R$ 0</td><td>R$ 150</td><td>R$ 300</td><td>Conforme equipe cresce</td></tr>
+      <tr><td>Google Ads (próprio)</td><td>R$ 500</td><td>R$ 1.500</td><td>R$ 3.000</td><td>Captação de leads</td></tr>
+      <tr><td>Meta Ads (próprio)</td><td>R$ 300</td><td>R$ 1.000</td><td>R$ 2.000</td><td>Awareness + leads</td></tr>
+      <tr><td>WhatsApp Business API</td><td>R$ 0</td><td>R$ 100</td><td>R$ 200</td><td>Automação de atendimento</td></tr>
+      <tr><td>Email profissional</td><td>R$ 0</td><td>R$ 30</td><td>R$ 60</td><td>Google Workspace</td></tr>
+      <tr><td>Freelancers / Colaboradores</td><td>R$ 0</td><td>R$ 2.000</td><td>R$ 5.000</td><td>Design, dev, conteúdo</td></tr>
+      <tr><td>Contabilidade</td><td>R$ 200</td><td>R$ 300</td><td>R$ 500</td><td>MEI → ME</td></tr>
+      <tr><td>Marketing / Materiais</td><td>R$ 100</td><td>R$ 300</td><td>R$ 500</td><td>Brindes, eventos</td></tr>
+      <tr><td><strong>Total Mensal</strong></td><td><strong>R$ 1.139</strong></td><td><strong>R$ 5.419</strong></td><td><strong>R$ 11.619</strong></td><td></td></tr>
+    </tbody>
+  </table>
+  <h3>Custos Anuais Consolidados</h3>
+  <table>
+    <thead><tr><th>Período</th><th>Infraestrutura</th><th>Marketing</th><th>Operacional</th><th>Total Anual</th></tr></thead>
+    <tbody>
+      <tr><td>Ano 1 (Q1)</td><td>R$ 468</td><td>R$ 2.400</td><td>R$ 900</td><td><strong>R$ 3.768</strong></td></tr>
+      <tr><td>Ano 1 (Q2)</td><td>R$ 648</td><td>R$ 7.500</td><td>R$ 3.600</td><td><strong>R$ 11.748</strong></td></tr>
+      <tr><td>Ano 1 (Q3–Q4)</td><td>R$ 1.296</td><td>R$ 27.000</td><td>R$ 12.000</td><td><strong>R$ 40.296</strong></td></tr>
+      <tr><td><strong>Ano 1 Total</strong></td><td><strong>R$ 2.412</strong></td><td><strong>R$ 42.900</strong></td><td><strong>R$ 16.500</strong></td><td><strong>R$ 61.812</strong></td></tr>
+      <tr><td>Ano 2 (projetado)</td><td>R$ 4.800</td><td>R$ 72.000</td><td>R$ 60.000</td><td><strong>R$ 176.800</strong></td></tr>
+    </tbody>
+  </table>
+  <h3>Break-even Analysis</h3>
+  <table>
+    <thead><tr><th>Métrica</th><th>Valor</th></tr></thead>
+    <tbody>
+      <tr><td>Custo mensal médio (Ano 1)</td><td>R$ 5.151</td></tr>
+      <tr><td>Ticket médio projeto</td><td>R$ 7.500</td></tr>
+      <tr><td>Clientes necessários/mês (só projetos)</td><td>1 projeto</td></tr>
+      <tr><td>Com mensalidades (Mês 6)</td><td>1 projeto + 8 mensalidades</td></tr>
+      <tr><td>Break-even estimado</td><td><span class="highlight">Mês 2–3</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 12 -->
+<section class="section" id="sec12">
+  <div class="section-header">
+    <div class="section-num">SEÇÃO 12</div>
+    <h2>Escalabilidade</h2>
+  </div>
+  <p>A arquitetura técnica e o modelo de negócio foram desenhados para escalar sem reestruturação significativa.</p>
+  <h3>Escalabilidade Técnica</h3>
+  <table>
+    <thead><tr><th>Componente</th><th>Capacidade Atual</th><th>Escalabilidade</th><th>Ação para Escalar</th></tr></thead>
+    <tbody>
+      <tr><td>Frontend (Next.js SSG)</td><td>Ilimitado</td><td>Excelente</td><td>CDN + cache estático</td></tr>
+      <tr><td>Hospedagem Hostinger</td><td>100k visitas/mês</td><td>Boa</td><td>Upgrade plano ou VPS</td></tr>
+      <tr><td>Componentes React</td><td>Modular</td><td>Excelente</td><td>Reutilização em novos projetos</td></tr>
+      <tr><td>Design System</td><td>Tailwind + tokens</td><td>Excelente</td><td>Expansão de tokens e componentes</td></tr>
+      <tr><td>CMS (futuro)</td><td>—</td><td>Planejado</td><td>Headless CMS (Sanity/Contentful)</td></tr>
+      <tr><td>Backend (futuro)</td><td>—</td><td>Planejado</td><td>API Routes ou servidor separado</td></tr>
+    </tbody>
+  </table>
+  <h3>Escalabilidade de Negócio</h3>
+  <table>
+    <thead><tr><th>Dimensão</th><th>Modelo Atual</th><th>Próximo Nível</th><th>Longo Prazo</th></tr></thead>
+    <tbody>
+      <tr><td>Equipe</td><td>1–2 pessoas</td><td>3–5 (dev, design, marketing)</td><td>10+ com departamentos</td></tr>
+      <tr><td>Clientes simultâneos</td><td>3–5 projetos</td><td>8–12 projetos</td><td>20+ com PM dedicado</td></tr>
+      <tr><td>Receita</td><td>R$ 15–50k/mês</td><td>R$ 100–200k/mês</td><td>R$ 500k+/mês</td></tr>
+      <tr><td>Serviços</td><td>11 serviços</td><td>+ SaaS, templates, cursos</td><td>Plataforma white-label</td></tr>
+      <tr><td>Geografia</td><td>São Paulo / Brasil</td><td>Brasil completo</td><td>Internacional (LATAM)</td></tr>
+    </tbody>
+  </table>
+  <h3>Ativos Reutilizáveis</h3>
+  <ul>
+    <li><strong>Componentes UI:</strong> Button, Logo, SectionTitle, ParticlesBackground — reutilizáveis em qualquer projeto</li>
+    <li><strong>Templates de proposta:</strong> PDFs padronizados por plano (Essencial, PRIME, SIGNATURE, LEGACY)</li>
+    <li><strong>Processo documentado:</strong> 7 etapas replicáveis para qualquer projeto</li>
+    <li><strong>Stack padronizada:</strong> Next.js + Tailwind em todos os projetos web</li>
+    <li><strong>Scripts de deploy:</strong> Automação para Hostinger e futuros clientes</li>
+  </ul>
+  <h3>Riscos e Mitigações</h3>
+  <table>
+    <thead><tr><th>Risco</th><th>Probabilidade</th><th>Impacto</th><th>Mitigação</th></tr></thead>
+    <tbody>
+      <tr><td>Dependência de 1 desenvolvedor</td><td>Média</td><td>Alto</td><td>Documentação + freelancers de backup</td></tr>
+      <tr><td>Concorrência de preços baixos</td><td>Alta</td><td>Médio</td><td>Posicionamento premium + qualidade</td></tr>
+      <tr><td>Sazonalidade de vendas</td><td>Média</td><td>Médio</td><td>Mensalidades recorrentes</td></tr>
+      <tr><td>Mudanças em APIs/plataformas</td><td>Baixa</td><td>Médio</td><td>Stack estável + monitoramento</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 13 -->
+<section class="section" id="sec13">
+  <div class="section-header">
+    <div class="section-num">SEÇÃO 13</div>
+    <h2>Plano de Crescimento 12 Meses</h2>
+  </div>
+  <p>Roadmap detalhado mês a mês para o primeiro ano de operação comercial da AURYX MEDIA.</p>
+  <table>
+    <thead><tr><th>Mês</th><th>Foco Principal</th><th>Entregas</th><th>Meta Receita</th><th>Clientes</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Mês 1</strong><br>Jun 2026</td><td>Lançamento</td><td>Site live, Google Business, primeiros posts</td><td>R$ 5.000</td><td>1</td></tr>
+      <tr><td><strong>Mês 2</strong><br>Jul 2026</td><td>Primeiros clientes</td><td>2 projetos entregues, cases publicados</td><td>R$ 12.000</td><td>2</td></tr>
+      <tr><td><strong>Mês 3</strong><br>Ago 2026</td><td>Validação</td><td>Processo refinado, 3 mensalidades ativas</td><td>R$ 18.000</td><td>3</td></tr>
+      <tr><td><strong>Mês 4</strong><br>Set 2026</td><td>Marketing ativo</td><td>Google Ads + Meta Ads iniciados</td><td>R$ 25.000</td><td>4</td></tr>
+      <tr><td><strong>Mês 5</strong><br>Out 2026</td><td>Expansão serviços</td><td>Social media + tráfego pago ofertados</td><td>R$ 35.000</td><td>5</td></tr>
+      <tr><td><strong>Mês 6</strong><br>Nov 2026</td><td>Consolidação</td><td>8 mensalidades, 1 freelancer fixo</td><td>R$ 50.000</td><td>7</td></tr>
+      <tr><td><strong>Mês 7</strong><br>Dez 2026</td><td>Black Friday</td><td>Campanha promocional, pacotes especiais</td><td>R$ 60.000</td><td>8</td></tr>
+      <tr><td><strong>Mês 8</strong><br>Jan 2027</td><td>Retomada</td><td>Blog lançado, SEO content strategy</td><td>R$ 45.000</td><td>6</td></tr>
+      <tr><td><strong>Mês 9</strong><br>Fev 2027</td><td>Autoridade</td><td>5+ cases publicados, testimoniais</td><td>R$ 70.000</td><td>9</td></tr>
+      <tr><td><strong>Mês 10</strong><br>Mar 2027</td><td>Escala</td><td>2 freelancers, 15 mensalidades</td><td>R$ 90.000</td><td>11</td></tr>
+      <tr><td><strong>Mês 11</strong><br>Abr 2027</td><td>Parcerias</td><td>2 parcerias B2B, programa referral</td><td>R$ 120.000</td><td>14</td></tr>
+      <tr><td><strong>Mês 12</strong><br>Mai 2027</td><td>Marco 1 ano</td><td>20 mensalidades, equipe de 3</td><td>R$ 150.000</td><td>18</td></tr>
+    </tbody>
+  </table>
+  <h3>Receita Acumulada — Projeção Anual</h3>
+  <table>
+    <thead><tr><th>Trimestre</th><th>Projetos</th><th>Mensalidades</th><th>Outros</th><th>Total Trimestre</th></tr></thead>
+    <tbody>
+      <tr><td>Q1 (Jun–Ago 2026)</td><td>R$ 30.000</td><td>R$ 1.500</td><td>R$ 0</td><td><strong>R$ 31.500</strong></td></tr>
+      <tr><td>Q2 (Set–Nov 2026)</td><td>R$ 95.000</td><td>R$ 6.000</td><td>R$ 2.000</td><td><strong>R$ 103.000</strong></td></tr>
+      <tr><td>Q3 (Dez 2026–Fev 2027)</td><td>R$ 135.000</td><td>R$ 12.000</td><td>R$ 3.000</td><td><strong>R$ 150.000</strong></td></tr>
+      <tr><td>Q4 (Mar–Mai 2027)</td><td>R$ 240.000</td><td>R$ 22.500</td><td>R$ 5.000</td><td><strong>R$ 267.500</strong></td></tr>
+      <tr><td><strong>Ano 1 Total</strong></td><td><strong>R$ 500.000</strong></td><td><strong>R$ 42.000</strong></td><td><strong>R$ 10.000</strong></td><td><strong>R$ 552.000</strong></td></tr>
+    </tbody>
+  </table>
+  <h3>KPIs de Acompanhamento</h3>
+  <table>
+    <thead><tr><th>KPI</th><th>Meta Mês 3</th><th>Meta Mês 6</th><th>Meta Mês 12</th></tr></thead>
+    <tbody>
+      <tr><td>Visitantes únicos/mês</td><td>2.000</td><td>8.000</td><td>25.000</td></tr>
+      <tr><td>Leads WhatsApp/mês</td><td>15</td><td>30</td><td>60</td></tr>
+      <tr><td>Taxa de conversão</td><td>20%</td><td>25%</td><td>30%</td></tr>
+      <tr><td>MRR (mensalidades)</td><td>R$ 500</td><td>R$ 3.500</td><td>R$ 7.625</td></tr>
+      <tr><td>NPS (satisfação)</td><td>90+</td><td>92+</td><td>95+</td></tr>
+      <tr><td>Projetos no portfólio</td><td>5</td><td>15</td><td>40+</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 14 -->
+<section class="section" id="sec14">
+  <div class="section-header">
+    <div class="section-num">SEÇÃO 14</div>
+    <h2>Conclusão Executiva</h2>
+  </div>
+  <div class="conclusion-box">
+    <p>A <strong style="color: var(--orange);">AURYX MEDIA</strong> está posicionada para capturar uma parcela significativa do mercado de agências digitais premium no Brasil. Com um site de alto impacto já desenvolvido, stack tecnológica moderna, estrutura de preços competitiva e plano de crescimento detalhado, a agência tem todos os elementos para atingir break-even no segundo mês e receita anual projetada de <strong style="color: var(--orange);">R$ 552.000</strong> no primeiro ano.</p>
+  </div>
+  <h3>Pontos Fortes</h3>
+  <ul>
+    <li><strong>Produto pronto:</strong> Site premium já desenvolvido e deployável — zero tempo de desenvolvimento inicial</li>
+    <li><strong>Stack moderna:</strong> Next.js 16, React 19, TypeScript — tecnologia que atrai clientes e facilita contratação</li>
+    <li><strong>Posicionamento premium:</strong> Design dark com acentos laranja que transmite autoridade e inovação</li>
+    <li><strong>Modelo híbrido:</strong> Receita de projetos (alto ticket) + mensalidades (recorrente) = estabilidade financeira</li>
+    <li><strong>Escalabilidade:</strong> Componentes reutilizáveis, processo documentado, stack padronizada</li>
+    <li><strong>Break-even rápido:</strong> Com ticket médio de R$ 7.500, apenas 1 projeto/mês cobre custos operacionais</li>
+  </ul>
+  <h3>Próximos Passos Imediatos</h3>
+  <table>
+    <thead><tr><th>#</th><th>Ação</th><th>Prazo</th><th>Prioridade</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Deploy final na Hostinger (auryxmedia.com.br)</td><td>Semana 1</td><td><span class="badge">Crítica</span></td></tr>
+      <tr><td>2</td><td>Configurar Google Business Profile</td><td>Semana 1</td><td><span class="badge">Crítica</span></td></tr>
+      <tr><td>3</td><td>Criar páginas Política de Privacidade e Termos</td><td>Semana 2</td><td><span class="badge">Alta</span></td></tr>
+      <tr><td>4</td><td>Iniciar campanhas Google Ads (R$ 500/mês)</td><td>Semana 2</td><td><span class="badge">Alta</span></td></tr>
+      <tr><td>5</td><td>Prospectar 10 leads via networking</td><td>Semana 1–4</td><td><span class="badge">Alta</span></td></tr>
+      <tr><td>6</td><td>Publicar 3 cases no portfólio</td><td>Mês 1</td><td><span class="badge">Média</span></td></tr>
+      <tr><td>7</td><td>Aplicar para Google AdSense</td><td>Mês 2</td><td><span class="badge">Baixa</span></td></tr>
+      <tr><td>8</td><td>Lançar blog com 4 artigos SEO</td><td>Mês 3</td><td><span class="badge">Média</span></td></tr>
+    </tbody>
+  </table>
+  <h3>Resumo Financeiro</h3>
+  <table>
+    <thead><tr><th>Indicador</th><th>Valor</th></tr></thead>
+    <tbody>
+      <tr><td>Investimento inicial (site + infra)</td><td>R$ 2.000 – R$ 5.000</td></tr>
+      <tr><td>Custo operacional mensal (médio Ano 1)</td><td>R$ 5.151</td></tr>
+      <tr><td>Break-even</td><td><span class="highlight">Mês 2–3</span></td></tr>
+      <tr><td>Receita projetada Ano 1</td><td><span class="highlight">R$ 552.000</span></td></tr>
+      <tr><td>MRR projetado (Mês 12)</td><td><span class="highlight">R$ 7.625</span></td></tr>
+      <tr><td>Margem estimada Ano 1</td><td>65–75%</td></tr>
+      <tr><td>ROI sobre investimento inicial</td><td><span class="highlight">100x+</span></td></tr>
+    </tbody>
+  </table>
+  <div class="conclusion-box" style="margin-top: 2rem;">
+    <p style="font-size: 1.1rem; color: white; margin-bottom: 0.5rem;">AURYX MEDIA — Transformamos ideias em marcas.</p>
+    <p style="color: var(--gray-muted); font-size: 0.85rem;">Documento preparado para apresentação a investidores e parceiros estratégicos.<br>Junho 2026 — São Paulo, Brasil</p>
+  </div>
+</section>
+
+<div class="doc-footer">
+  AURYX MEDIA © 2026 — Documentação Executiva — Todos os dados são projeções baseadas em análise de mercado e benchmarks do setor.
+</div>
+
+</body>
+</html>
